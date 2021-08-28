@@ -92,7 +92,18 @@ class CreateView(APIView):
             post = battle.objects.create(name=battle_data["name"], year=battle_data["year"],battle_number=battle_data["battle_number"], attacker_king=battle_data["attacker_king"], defender_king=battle_data["defender_king"], attacker_1=battle_data["attacker_1"], attacker_2=battle_data["attacker_2"], attacker_3=battle_data["attacker_3"], attacker_4=battle_data["attacker_4"], defender_1=battle_data["defender_1"], defender_2=battle_data["defender_2"], defender_3=battle_data["defender_3"], defender_4=battle_data["defender_4"], attacker_outcome=battle_data["attacker_outcome"], battle_type=battle_data["battle_type"], major_death=battle_data["major_death"], major_capture=battle_data["major_capture"], attacker_size=battle_data["attacker_size"], defender_size=battle_data["defender_size"], attacker_commander=battle_data["attacker_commander"], defender_commander=battle_data["defender_commander"], summer=battle_data["summer"], location=battle_data["location"], region=battle_data["region"],note=battle_data["note"])
             print(battle_data)        
         return Response({"create": "Hellooo"})
-
+        
+class LoadDataBaseView(APIView):
+     def post(self, request):
+        if request.method == 'POST':
+            battle_data = request.data
+            bulk = []
+            for d in battle_data:
+                bulk.append(battle(name=d["name"], year=d["year"]))
+            post = battle.objects.bulk_create(bulk)
+            print(battle_data)
+        
+        return Response({"create": "Hellooo"})
 class ReadView(APIView):
      def get(self, request):
         queryset = battle.objects.all().values()

@@ -17,5 +17,6 @@ urlpatterns = [
     path('read/', views.ReadView.as_view()),
     path('update/', views.UpdateView.as_view()),
     path('delete/', views.DeleteView.as_view()),
-
+    path('load/', views.LoadDataBaseView.as_view()),
+    
 ]
