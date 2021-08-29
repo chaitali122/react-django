@@ -35,8 +35,13 @@ class StatsView(APIView):
         most_common_region = battle.objects.values("region").annotate(count=Count('region')).order_by("-count")[0]["region"]
         most_common_name = battle.objects.values("name").annotate(count=Count('name')).order_by("-count")[0]["name"]
         win_loss_stats = battle.objects.values("attacker_outcome").annotate(count=Count('attacker_outcome')).order_by("-count")
-        win_total = win_loss_stats[0]["count"]
-        loss_total = win_loss_stats[1]["count"]
+        win_total = 0
+        loss_total = 0
+        for w in win_loss_stats:
+            if(w["attacker_outcome"] == "win"):
+                win_total = w["count"]
+            elif(w["attacker_outcome"] == "loss"):
+                loss_total = w["count"]
         battletypes = []
         types = battle.objects.values_list('battle_type')
         for t in types:
